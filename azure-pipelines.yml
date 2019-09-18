@@ -19,8 +19,15 @@ steps:
 - script: |
     npm install --only=prod
     npm run build
+    yarn install
+    npm run compile
+    tsc --target ES6 --strict true --project tsconfigs/production.json
   displayName: 'npm install and build'
 
 - task: Npm@1
   inputs:
     customEndpoint: <Name of npm service connection>
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
